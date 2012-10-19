@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper", "Dapper.Mapper\Dapper.Mapper.csproj", "{36B58607-493B-4292-B3C1-6E14DEF1D0D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper.Tests", "Dapper.Mapper.Tests\Dapper.Mapper.Tests.csproj", "{555AE76C-73CB-42A5-A532-9985557DF0C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{668A5B06-102C-41C7-B22B-E992265CF9E3}"
+	ProjectSection(SolutionItems) = preProject
+		Dapper.Mapper.vsmdi = Dapper.Mapper.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Dapper.Mapper.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
