@@ -10,11 +10,14 @@ Example:
 ```csharp
 var sql = @"select * from Employee 
 inner join Department on Department.Id = Employee.DepartmentId";
- 
+```
 Instead of explicitly writing this:
 
+```csharp
 var data = connection.Query<Employee, Department, Employee>(sql, (employee, department) => { employee.Department = department; return employee;});
-
+```
 Dapper.Mapper allows you to write this:
 
+```csharp
 var data = connection.Query<Employee, Department>(sql);
+```
