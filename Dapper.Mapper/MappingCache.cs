@@ -12,22 +12,28 @@ namespace Dapper.Mapper
 
     internal static class MappingCache
     {
-        internal static Tuple<ParameterExpression, PropertyInfo> GetParameterAndProperty(Type propertyType, params ParameterExpression[] parameters)
+        internal static Expression GetSetExpression(ParameterExpression sourceExpression, params ParameterExpression[] destinationExpressions)
         {
-            var result = parameters
-                .Select(parameter => new Tuple<ParameterExpression, PropertyInfo>(parameter, parameter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(property => property.CanWrite)
-                    .Where(property => property.PropertyType == propertyType || propertyType.IsSubclassOf(property.PropertyType))
-                    .FirstOrDefault()))
-                .Where(tuple => tuple.Item2 != null)
+            var destination = destinationExpressions
+                .Select(parameter => new
+                {
+                    Parameter = parameter,
+                    Property = parameter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .Where(property => property.CanWrite)
+                        .Where(property => property.PropertyType == sourceExpression.Type || sourceExpression.Type.IsSubclassOf(property.PropertyType))
+                        .FirstOrDefault()
+                })
+                .Where(parameter => parameter.Property != null)
                 .FirstOrDefault();
 
-            if (result == null)
+            if (destination == null)
             {
-                throw new InvalidOperationException(string.Format("No writable property of type {0} found in types {1}.", propertyType.FullName, string.Join(", ", parameters.Select(parameter => parameter.Type.FullName))));
+                throw new InvalidOperationException(string.Format("No writable property of type {0} found in types {1}.", sourceExpression.Type.FullName, string.Join(", ", destinationExpressions.Select(parameter => parameter.Type.FullName))));
             }
-
-            return result;
+            
+            return Expression.IfThen(
+                Expression.Not(Expression.Equal(destination.Parameter, Expression.Constant(null))),
+                Expression.Call(destination.Parameter, destination.Property.GetSetMethod(), sourceExpression));
         }
     }
 }

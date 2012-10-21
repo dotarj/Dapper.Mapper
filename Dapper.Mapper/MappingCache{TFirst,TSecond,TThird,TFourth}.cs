@@ -17,21 +17,9 @@ namespace Dapper.Mapper
             var third = Expression.Parameter(typeof(TThird), "third");
             var fourth = Expression.Parameter(typeof(TFourth), "fourth");
 
-            var secondParameterAndPropery = MappingCache.GetParameterAndProperty(typeof(TSecond), first);
-            var thirdParameterAndPropery = MappingCache.GetParameterAndProperty(typeof(TThird), first, second);
-            var fourthParameterAndPropery = MappingCache.GetParameterAndProperty(typeof(TFourth), first, second, third);
-
-            var secondSetExpression = Expression.IfThen(
-                Expression.Not(Expression.Equal(secondParameterAndPropery.Item1, Expression.Constant(null))),
-                Expression.Call(secondParameterAndPropery.Item1, secondParameterAndPropery.Item2.GetSetMethod(), second));
-
-            var thirdSetExpression = Expression.IfThen(
-                Expression.Not(Expression.Equal(thirdParameterAndPropery.Item1, Expression.Constant(null))),
-                Expression.Call(thirdParameterAndPropery.Item1, thirdParameterAndPropery.Item2.GetSetMethod(), third));
-
-            var fourthSetExpression = Expression.IfThen(
-                Expression.Not(Expression.Equal(fourthParameterAndPropery.Item1, Expression.Constant(null))),
-                Expression.Call(fourthParameterAndPropery.Item1, fourthParameterAndPropery.Item2.GetSetMethod(), fourth));
+            var secondSetExpression = MappingCache.GetSetExpression(second, first);
+            var thirdSetExpression = MappingCache.GetSetExpression(third, first, second);
+            var fourthSetExpression = MappingCache.GetSetExpression(fourth, first, second, third);
 
             var blockExpression = Expression.Block(first, second, third, fourth, secondSetExpression, thirdSetExpression, fourthSetExpression, first);
 

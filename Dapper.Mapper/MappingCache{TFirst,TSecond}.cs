@@ -15,11 +15,7 @@ namespace Dapper.Mapper
             var first = Expression.Parameter(typeof(TFirst), "first");
             var second = Expression.Parameter(typeof(TSecond), "second");
 
-            var secondParameterAndPropery = MappingCache.GetParameterAndProperty(typeof(TSecond), first);
-
-            var secondSetExpression = Expression.IfThen(
-                Expression.Not(Expression.Equal(secondParameterAndPropery.Item1, Expression.Constant(null))),
-                Expression.Call(secondParameterAndPropery.Item1, secondParameterAndPropery.Item2.GetSetMethod(), second));
+            var secondSetExpression = MappingCache.GetSetExpression(second, first);
 
             var blockExpression = Expression.Block(first, second, secondSetExpression, first);
 
