@@ -19,7 +19,7 @@ namespace Dapper.Mapper
                 {
                     Parameter = parameter,
                     Property = parameter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(property => property.CanWrite)
+                        .Where(property => property.CanWrite && !property.GetIndexParameters().Any())
                         .Where(property => property.PropertyType == sourceExpression.Type || sourceExpression.Type.IsSubclassOf(property.PropertyType))
                         .FirstOrDefault()
                 })
