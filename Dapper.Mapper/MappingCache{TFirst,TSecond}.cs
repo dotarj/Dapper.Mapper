@@ -1,5 +1,5 @@
 ﻿/*
- Copyright © 2012 Arjen Post (http://arjenpost.nl)
+ Copyright © 2013 Arjen Post (http://arjenpost.nl)
  License: http://www.apache.org/licenses/LICENSE-2.0 
  */
 

@@ -6,6 +6,5 @@ _Resharper*
 .hgtags
 NuGet.exe
 *.user
-*.nupkg
 .docstats
 TestResults
