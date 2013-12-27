@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata schemaVersion="2">
+    <id>Dapper.Mapper</id>
+    <version>1.13</version>
+    <title>Dapper.Mapper</title>
+    <authors>Arjen Post</authors>
+    <owners>Arjen Post</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/dotarj/Dapper.Mapper</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Dapper.Mapper is an extension to Dapper multi mapping which figures out the relationships between the returned objects and automatically assigns them.
+
+      Instead of explicitly writing this:
+
+      var employee = connection.Query&lt;Employee, Department=&quot;&quot;, Employee=&quot;&quot;&gt;(sql, (employee, department) =&gt; { employee.Department = department; return employee;});
+
+      Dapper.Mapper allows you to write this:
+
+      var employee = connection.Query&lt;Employee, Department=&quot;&quot;&gt;(sql);
+    </description>
+    <summary>Dapper.Mapper is an easy multi mapping extension for Dapper.</summary>
+    <tags>orm sql micro-orm dapper</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+      <frameworkAssembly assemblyName="System.Core"/>
+      <frameworkAssembly assemblyName="System"/>
+      <frameworkAssembly assemblyName="System.Data"/>
+    </frameworkAssemblies>
+    <releaseNotes>
+      - Added support for async
+      - Added support for up to seven generic type parameters
+    </releaseNotes>
+    <dependencies>
+      <dependency id="Dapper" version="1.13" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\Dapper.Mapper\bin\Release\Dapper.Mapper.dll" target="lib\net40" />
+    <file src="src\Dapper.Mapper\bin\Release\Dapper.Mapper.pdb" target="lib\net40" />
+    
+    <file src="src\Dapper.Mapper.Net45\bin\Release\Dapper.Mapper.dll" target="lib\net45" />
+    <file src="src\Dapper.Mapper.Net45\bin\Release\Dapper.Mapper.pdb" target="lib\net45" />
+  </files>
+</package>

@@ -1,7 +1,9 @@
-﻿namespace Dapper.Mapper.Tests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Arjen Post. See License.txt in the project root for license information.
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Dapper.Mapper.Tests
+{
     [TestClass]
     public class MappingCacheTests
     {
@@ -144,5 +146,125 @@
             // Assert
             Assert.IsNull(result.Second);
         }
+
+        [TestMethod]
+        public void MappingCache6()
+        {
+            // Arrange
+            var first = new First();
+            var second = new Second();
+            var third = new Third();
+            var fourth = new Fourth();
+            var fifth = new Fifth();
+            var sixth = new Sixth();
+
+            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth>.Map;
+
+            // Act
+            var result = map(first, second, third, fourth, fifth, sixth);
+
+            // Assert
+            Assert.AreEqual(result.Second.Third.Fourth.Fifth.Sixth, sixth);
+        }
+
+        [TestMethod]
+        public void MappingCache6_2()
+        {
+            // Arrange
+            var first = new First();
+            Second second = null;
+            var third = new Third();
+            var fourth = new Fourth();
+            var fifth = new Fifth();
+            var sixth = new Sixth();
+
+            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth>.Map;
+
+            // Act
+            var result = map(first, second, third, fourth, fifth, sixth);
+
+            // Assert
+            Assert.IsNull(result.Second);
+        }
+
+        [TestMethod]
+        public void MappingCache7()
+        {
+            // Arrange
+            var first = new First();
+            var second = new Second();
+            var third = new Third();
+            var fourth = new Fourth();
+            var fifth = new Fifth();
+            var sixth = new Sixth();
+            var seventh = new Seventh();
+
+            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth, Seventh>.Map;
+
+            // Act
+            var result = map(first, second, third, fourth, fifth, sixth, seventh);
+
+            // Assert
+            Assert.AreEqual(result.Second.Third.Fourth.Fifth.Sixth.Seventh, seventh);
+        }
+
+        [TestMethod]
+        public void MappingCache7_2()
+        {
+            // Arrange
+            var first = new First();
+            Second second = null;
+            var third = new Third();
+            var fourth = new Fourth();
+            var fifth = new Fifth();
+            var sixth = new Sixth();
+            var seventh = new Seventh();
+
+            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth, Seventh>.Map;
+
+            // Act
+            var result = map(first, second, third, fourth, fifth, sixth, seventh);
+
+            // Assert
+            Assert.IsNull(result.Second);
+        }
+    }
+
+    public class First
+    {
+        public Second Second { get; set; }
+    }
+
+    public class Second
+    {
+        public ThirdBase Third { get; set; }
+    }
+
+    public class ThirdBase
+    {
+        public Fourth Fourth { get; set; }
+    }
+
+    public class Third : ThirdBase
+    {
+    }
+
+    public class Fourth
+    {
+        public Fifth Fifth { get; set; }
+    }
+
+    public class Fifth
+    {
+        public Sixth Sixth { get; set; }
+    }
+
+    public class Sixth
+    {
+        public Seventh Seventh { get; set; }
+    }
+
+    public class Seventh
+    {
     }
 }

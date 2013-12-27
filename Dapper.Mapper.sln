@@ -1,34 +1,37 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper", "Dapper.Mapper\Dapper.Mapper.csproj", "{36B58607-493B-4292-B3C1-6E14DEF1D0D6}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper", "src\Dapper.Mapper\Dapper.Mapper.csproj", "{42118865-0B66-4908-8F31-F3313041C6AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper.Tests", "Dapper.Mapper.Tests\Dapper.Mapper.Tests.csproj", "{555AE76C-73CB-42A5-A532-9985557DF0C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper.Net45", "src\Dapper.Mapper.Net45\Dapper.Mapper.Net45.csproj", "{C9D01818-F16E-4EBA-86BE-FAC84BB5F5F7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{668A5B06-102C-41C7-B22B-E992265CF9E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Mapper.Test", "test\Dapper.Mapper.Test\Dapper.Mapper.Test.csproj", "{3D1D9A1D-7B55-4567-BE2F-A824B2C41872}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F92603EE-0CF6-463A-801C-22A8F04EBCD1}"
 	ProjectSection(SolutionItems) = preProject
-		Dapper.Mapper.vsmdi = Dapper.Mapper.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Dapper.Mapper.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36B58607-493B-4292-B3C1-6E14DEF1D0D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{555AE76C-73CB-42A5-A532-9985557DF0C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42118865-0B66-4908-8F31-F3313041C6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42118865-0B66-4908-8F31-F3313041C6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42118865-0B66-4908-8F31-F3313041C6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42118865-0B66-4908-8F31-F3313041C6AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D01818-F16E-4EBA-86BE-FAC84BB5F5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D01818-F16E-4EBA-86BE-FAC84BB5F5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D01818-F16E-4EBA-86BE-FAC84BB5F5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D01818-F16E-4EBA-86BE-FAC84BB5F5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1D9A1D-7B55-4567-BE2F-A824B2C41872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1D9A1D-7B55-4567-BE2F-A824B2C41872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1D9A1D-7B55-4567-BE2F-A824B2C41872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1D9A1D-7B55-4567-BE2F-A824B2C41872}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
