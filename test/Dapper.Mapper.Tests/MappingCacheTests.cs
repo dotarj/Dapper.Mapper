@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Arjen Post. See License.txt in the project root for license information.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Dapper.Mapper.Tests
 {
-    [TestClass]
     public class MappingCacheTests
     {
-        [TestMethod]
+        [Fact]
         public void MappingCache2()
         {
             // Arrange
@@ -20,10 +19,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second);
 
             // Assert
-            Assert.AreEqual(result.Second, second);
+            Assert.Equal(result.Second, second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache2_2()
         {
             // Arrange
@@ -36,10 +35,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache3()
         {
             // Arrange
@@ -53,10 +52,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third);
 
             // Assert
-            Assert.AreEqual(result.Second.Third, third);
+            Assert.Equal(result.Second.Third, third);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache3_2()
         {
             // Arrange
@@ -70,10 +69,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache4()
         {
             // Arrange
@@ -88,10 +87,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth);
 
             // Assert
-            Assert.AreEqual(result.Second.Third.Fourth, fourth);
+            Assert.Equal(result.Second.Third.Fourth, fourth);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache4_2()
         {
             // Arrange
@@ -106,10 +105,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache5()
         {
             // Arrange
@@ -125,10 +124,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth);
 
             // Assert
-            Assert.AreEqual(result.Second.Third.Fourth.Fifth, fifth);
+            Assert.Equal(result.Second.Third.Fourth.Fifth, fifth);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache5_2()
         {
             // Arrange
@@ -144,10 +143,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache6()
         {
             // Arrange
@@ -164,10 +163,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth, sixth);
 
             // Assert
-            Assert.AreEqual(result.Second.Third.Fourth.Fifth.Sixth, sixth);
+            Assert.Equal(result.Second.Third.Fourth.Fifth.Sixth, sixth);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache6_2()
         {
             // Arrange
@@ -184,10 +183,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth, sixth);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache7()
         {
             // Arrange
@@ -205,10 +204,10 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth, sixth, seventh);
 
             // Assert
-            Assert.AreEqual(result.Second.Third.Fourth.Fifth.Sixth.Seventh, seventh);
+            Assert.Equal(result.Second.Third.Fourth.Fifth.Sixth.Seventh, seventh);
         }
 
-        [TestMethod]
+        [Fact]
         public void MappingCache7_2()
         {
             // Arrange
@@ -226,7 +225,7 @@ namespace Dapper.Mapper.Tests
             var result = map(first, second, third, fourth, fifth, sixth, seventh);
 
             // Assert
-            Assert.IsNull(result.Second);
+            Assert.Null(result.Second);
         }
     }
 

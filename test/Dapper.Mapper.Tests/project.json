@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.50.1-*",
+  "authors": [ "Arjen Post" ],
+  "title": "Dapper.Mapper.Tests",
+  "description": "Dapper.Mapper is an extension to Dapper multi mapping which figures out the relationships between the returned objects and automatically assigns them. Instead of explicitly writing this: 'var employee = connection.Query<Employee, Department, Employee>(sql, (employee, department) => { employee.Department = department; return employee;});' Dapper.Mapper allows you to write this: 'var employee = connection.Query<Employee, Department>(sql);'.",
+  "dependencies": {
+    "Dapper.Mapper": {
+      "target": "project"
+    },
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+  },
+  "buildOptions": {
+    "warningsAsErrors": true
+  },
+  "testRunner": "xunit",
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0",
+          "type": "platform"
+        }
+      }
+    }
+  }
+}
