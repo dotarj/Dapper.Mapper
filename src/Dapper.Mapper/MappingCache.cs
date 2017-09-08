@@ -17,7 +17,7 @@ namespace Dapper.Mapper
                     Parameter = parameter,
                     Property = parameter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                         .Where(property => property.CanWrite && !property.GetIndexParameters().Any())
-                        .Where(property => property.PropertyType == sourceExpression.Type || IsSubclassOf(sourceExpression.Type, property.PropertyType))
+                        .Where(property => property.PropertyType == sourceExpression.Type || IsSubclassOf(sourceExpression.Type, property.PropertyType) || property.PropertyType.IsAssignableFrom(sourceExpression.Type))
                         .FirstOrDefault()
                 })
                 .Where(parameter => parameter.Property != null)
