@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Dapper.Mapper is an extension to Dapper multi mapping which figures out the relationships between the returned objects and automatically assigns them. Instead of explicitly writing this: 'var employee = connection.Query&lt;Employee, Department, Employee&gt;(sql, (employee, department) =&gt; employee.Department = department; return employee;);' Dapper.Mapper allows you to write this: 'var employee = connection.Query&lt;Employee, Department&gt;(sql);'.</Description>
+    <AssemblyTitle>Dapper.Mapper</AssemblyTitle>
+    <VersionPrefix>1.50.1</VersionPrefix>
+    <Authors>Arjen Post</Authors>
+    <TargetFrameworks>net40;net45;net451;netstandard1.3</TargetFrameworks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Dapper.Mapper</AssemblyName>
+    <PackageId>Dapper.Mapper</PackageId>
+    <PackageTags>orm;sql;micro-orm;dapper</PackageTags>
+    <PackageProjectUrl>https://github.com/dotarj/Dapper.Mapper</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dotarj/Dapper.Mapper</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' OR '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net451' ">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'netstandard1.3' ">
+    <DefineConstants>$(DefineConstants);ASYNC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="Microsoft.CSharp" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>
