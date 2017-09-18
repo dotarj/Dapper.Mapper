@@ -227,6 +227,22 @@ namespace Dapper.Mapper.Tests
             // Assert
             Assert.Null(result.Second);
         }
+
+        [Fact]
+        public void MappingCache8()
+        {
+            // Arrange
+            var withInterface = new Eighth();
+            var test = new Test();
+
+            var map = MappingCache<Eighth, Test>.Map;
+
+            // Act
+            var result = map(withInterface, test);
+
+            // Assert
+            Assert.NotNull(result.Test);
+        }
     }
 
     public class First
@@ -266,4 +282,13 @@ namespace Dapper.Mapper.Tests
     public class Seventh
     {
     }
+
+    public class Eighth
+    {
+        public ITest Test { get; set; }
+    }
+
+    public interface ITest { }
+
+    public class Test : ITest { }
 }
