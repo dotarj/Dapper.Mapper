@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Dapper.Mapper is an extension to Dapper multi mapping which figures out the relationships between the returned objects and automatically assigns them. Instead of explicitly writing this: 'var employee = connection.Query&lt;Employee, Department, Employee&gt;(sql, (employee, department) =&gt; employee.Department = department; return employee;);' Dapper.Mapper allows you to write this: 'var employee = connection.Query&lt;Employee, Department&gt;(sql);'.</Description>
     <AssemblyTitle>Dapper.Mapper</AssemblyTitle>
-    <VersionPrefix>1.50.1</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>Arjen Post</Authors>
     <TargetFrameworks>net40;net45;net451;netstandard1.3</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
