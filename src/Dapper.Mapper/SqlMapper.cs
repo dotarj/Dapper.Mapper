@@ -1,4 +1,4 @@
-﻿// Copyright (c) Arjen Post. See License.txt in the project root for license information.
+﻿// Copyright (c) Arjen Post. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
 using System.Data;
@@ -37,6 +37,7 @@ namespace Dapper.Mapper
         {
             return Dapper.SqlMapper.Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TFirst>(cnn, sql, MappingCache<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh>.Map, param, transaction, buffered, splitOn, commandTimeout, commandType);
         }
+
 #if ASYNC
         public static async Task<IEnumerable<TFirst>> QueryAsync<TFirst, TSecond>(this IDbConnection cnn, string sql, dynamic param = null, IDbTransaction transaction = null, bool buffered = true, string splitOn = "Id", int? commandTimeout = null, CommandType? commandType = null)
         {

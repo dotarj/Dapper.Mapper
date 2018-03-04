@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Magister" ToolsVersion="14.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+
+    <!-- EnableXmlDocumentationOutput -->
+    <Rule Id="SA1652" Action="None" />
+
+    <!-- ElementsMustBeDocumented -->
+    <Rule Id="SA1600" Action="None" />
+
+  </Rules>
+</RuleSet>

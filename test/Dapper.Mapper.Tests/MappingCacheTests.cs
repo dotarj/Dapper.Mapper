@@ -1,4 +1,4 @@
-﻿// Copyright (c) Arjen Post. See License.txt in the project root for license information.
+﻿// Copyright (c) Arjen Post. See LICENSE in the project root for license information.
 
 using Xunit;
 
@@ -243,52 +243,55 @@ namespace Dapper.Mapper.Tests
             // Assert
             Assert.NotNull(result.Test);
         }
+
+        private class First
+        {
+            public Second Second { get; set; }
+        }
+
+        private class Second
+        {
+            public ThirdBase Third { get; set; }
+        }
+
+        private class ThirdBase
+        {
+            public Fourth Fourth { get; set; }
+        }
+
+        private class Third : ThirdBase
+        {
+        }
+
+        private class Fourth
+        {
+            public Fifth Fifth { get; set; }
+        }
+
+        private class Fifth
+        {
+            public Sixth Sixth { get; set; }
+        }
+
+        private class Sixth
+        {
+            public Seventh Seventh { get; set; }
+        }
+
+        private class Seventh
+        {
+        }
+
+        private class Eighth
+        {
+            public Test.ITest Test { get; set; }
+        }
+
+        private class Test : Test.ITest
+        {
+            public interface ITest
+            {
+            }
+        }
     }
-
-    public class First
-    {
-        public Second Second { get; set; }
-    }
-
-    public class Second
-    {
-        public ThirdBase Third { get; set; }
-    }
-
-    public class ThirdBase
-    {
-        public Fourth Fourth { get; set; }
-    }
-
-    public class Third : ThirdBase
-    {
-    }
-
-    public class Fourth
-    {
-        public Fifth Fifth { get; set; }
-    }
-
-    public class Fifth
-    {
-        public Sixth Sixth { get; set; }
-    }
-
-    public class Sixth
-    {
-        public Seventh Seventh { get; set; }
-    }
-
-    public class Seventh
-    {
-    }
-
-    public class Eighth
-    {
-        public ITest Test { get; set; }
-    }
-
-    public interface ITest { }
-
-    public class Test : ITest { }
 }
