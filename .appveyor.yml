@@ -1,0 +1,148 @@
+environment:
+  VERIFY_STRONG_NAME: false
+  MYGET_FEED_NAME: dapper.mapper
+  MYGET_API_KEY:
+    secure: hne5SsxXlA7JM2jIJg4v4nB6QfyiEPw2LODiCaGv+fMVPW/MvtoLqpTQDJeeKlvy
+  NUGET_API_KEY:
+    secure: ign6nOa/7xTu2nPJylNegWlgYgeJlur6+shC2zDZQxBHa8hAKbcydFQ3nsY/I0pz
+  SONARQUBE_ORGANIZATION: dotarj-github
+  SONARQUBE_TOKEN:
+    secure: knsJnaFI9wGTuiNYrxzQJdWLefRbxPLikF9OU55nZwSZdmAnnmiKJVWPzLr2IZhc
+  SONARQUBE_GITHUB_TOKEN:
+    secure: jxlZ1UMhQBH1EVqVrMenOKDdb7wK/bGmzY6t0UmfkedsQFosfTS62j/jIRUQV5uj
+
+image: Visual Studio 2017
+
+skip_tags: false
+
+branches:
+  only:
+    - master
+
+configuration: Release
+
+init:
+- ps: |
+      function Execute-Action {
+          param($description, $action)
+    
+          Write-Host (Get-Date).ToString("hh:mm:ss.fff") "STARTED $description" -ForegroundColor Magenta
+
+          &$action
+
+          Write-Host (Get-Date).ToString("hh:mm:ss.fff") "FINISHED $description" -ForegroundColor Magenta
+
+          if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
+      }
+
+- ps: |
+      Execute-Action "updating build version" {
+         If ($env:APPVEYOR_REPO_TAG -eq $true) {
+             $env:RELEASE_VERSION = $env:APPVEYOR_REPO_TAG_NAME
+         }
+         else {
+             $env:RELEASE_VERSION = "0.0.0-ci.sha.$($env:APPVEYOR_REPO_COMMIT.Substring(0, 7)).build.$env:APPVEYOR_BUILD_NUMBER"
+         }
+
+         Write-Host "Build version:" $env:RELEASE_VERSION -ForegroundColor White
+
+         Update-AppveyorBuild -Version $env:RELEASE_VERSION
+      }
+
+- ps: |
+      Execute-Action "updating path variable" {
+          $env:PATH = $env:PATH + ";C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.7 Tools"
+      }
+
+install:
+- ps: |
+      Execute-Action "installing tools" {
+          choco install codecov msbuild-sonarqube-runner opencover.portable
+      }
+
+dotnet_csproj:
+  patch: true
+  file: src\$(APPVEYOR_PROJECT_NAME)\$(APPVEYOR_PROJECT_NAME).csproj
+  version: $(RELEASE_VERSION)
+
+before_build:
+- ps: |
+      Execute-Action "restoring project dependencies" {
+          dotnet restore -v m
+      }
+
+- ps: |
+      Execute-Action "beginning code analysis" {
+          if ($env:APPVEYOR_PULL_REQUEST_NUMBER) {
+              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs /d:sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER /d:sonar.github.repository=$env:APPVEYOR_REPO_NAME /d:sonar.github.oauth=$env:SONARQUBE_GITHUB_TOKEN
+          }
+          else {
+              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs
+          }
+      }
+
+build_script:
+- ps: |
+      Execute-Action "building project" {
+          dotnet build -c $env:CONFIGURATION --no-restore -v m
+      }
+
+after_build:
+- ps: |
+      If ($env:VERIFY_STRONG_NAME -eq $true) {
+          Execute-Action "building project" {
+              foreach ($assembly in ls "src/$env:APPVEYOR_PROJECT_NAME/bin/$env:CONFIGURATION/*/$env:APPVEYOR_PROJECT_NAME.dll") {
+                  sn.exe -vf $assembly
+
+                  if ($LastExitCode -ne 0) { Break }
+              }
+          }
+      }
+
+- ps: |
+      Execute-Action "creating NuGet package" {
+          dotnet pack src/$env:APPVEYOR_PROJECT_NAME -c $env:CONFIGURATION --no-restore --no-build --include-symbols --output ../../artifacts -v m
+      }
+
+test_script:
+- ps: |
+      Execute-Action "running unit tests" {
+          dotnet test test/$env:APPVEYOR_PROJECT_NAME.Tests -c $env:CONFIGURATION --no-restore --no-build -v m
+      }
+
+after_test:
+- ps: |
+      Execute-Action "generating code coverage report" {
+          dotnet build -c $env:CONFIGURATION --no-restore -v m /p:codecov=true
+
+          OpenCover.Console.exe -target:"$env:XUNIT20/xunit.console.x86.exe" -targetargs:"test/$env:APPVEYOR_PROJECT_NAME.Tests/bin/$env:CONFIGURATION/net471/$env:APPVEYOR_PROJECT_NAME.Tests.dll -noshadow" -register:user -filter:"+[*]* -[$env:APPVEYOR_PROJECT_NAME.Tests]* -[$env:APPVEYOR_PROJECT_NAME.Samples]*" -hideskipped:All -output:"./coverage.xml"
+      }
+
+- ps: |
+      Execute-Action "uploading code coverage report" {
+          codecov.exe -f coverage.xml
+      }
+
+- ps: |
+      Execute-Action "ending code analysis" {
+          MSBuild.SonarQube.Runner.exe end /d:sonar.login=$env:SONARQUBE_TOKEN
+      }
+
+artifacts:
+  - path: artifacts/*.nupkg
+    name: NuGet
+
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/$(MYGET_FEED_NAME)/api/v2
+  api_key: $(MYGET_API_KEY)
+  skip_symbols: false
+  symbol_server: https://www.myget.org/F/$(MYGET_FEED_NAME)/symbols/api/v2/package
+  on:
+    appveyor_repo_tag: false
+
+- provider: NuGet
+  api_key: $(NUGET_API_KEY)
+  skip_symbols: false
+  on:
+    appveyor_repo_tag: true
