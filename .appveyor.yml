@@ -90,7 +90,7 @@ build_script:
 after_build:
 - ps: |
       If ($env:VERIFY_STRONG_NAME -eq $true) {
-          Execute-Action "building project" {
+          Execute-Action "verifying strong name" {
               foreach ($assembly in ls "src/$env:APPVEYOR_PROJECT_NAME/bin/$env:CONFIGURATION/*/$env:APPVEYOR_PROJECT_NAME.dll") {
                   sn.exe -vf $assembly
 
