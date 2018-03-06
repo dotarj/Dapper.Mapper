@@ -1,6 +1,6 @@
 environment:
   VERIFY_STRONG_NAME: false
-  MYGET_FEED_NAME: dapper.mapper
+  MYGET_FEED_NAME: dapper-mapper
   MYGET_API_KEY:
     secure: hne5SsxXlA7JM2jIJg4v4nB6QfyiEPw2LODiCaGv+fMVPW/MvtoLqpTQDJeeKlvy
   NUGET_API_KEY:
