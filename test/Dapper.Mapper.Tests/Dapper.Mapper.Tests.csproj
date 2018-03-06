@@ -3,6 +3,7 @@
   <PropertyGroup>
     <DebugType Condition="$(codecov) == 'true'">full</DebugType>
     <IsPackable>false</IsPackable>
+    <NoWarn>S1144,S3459</NoWarn>
     <TargetFramework>net471</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
