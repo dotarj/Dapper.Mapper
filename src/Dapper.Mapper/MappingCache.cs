@@ -16,12 +16,9 @@ namespace Dapper.Mapper
                 {
                     Parameter = parameter,
                     Property = parameter.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .Where(property => property.CanWrite && !property.GetIndexParameters().Any())
-                        .Where(property => property.PropertyType == sourceExpression.Type || IsSubclassOf(sourceExpression.Type, property.PropertyType) || property.PropertyType.IsAssignableFrom(sourceExpression.Type))
-                        .FirstOrDefault()
+                        .FirstOrDefault(property => IsWritable(property) && IsOfType(property, sourceExpression.Type))
                 })
-                .Where(parameter => parameter.Property != null)
-                .FirstOrDefault();
+                .FirstOrDefault(parameter => parameter.Property != null);
 
             if (destination == null)
             {
@@ -31,6 +28,16 @@ namespace Dapper.Mapper
             return Expression.IfThen(
                 Expression.Not(Expression.Equal(destination.Parameter, Expression.Constant(null))),
                 Expression.Call(destination.Parameter, destination.Property.GetSetMethod(), sourceExpression));
+        }
+
+        private static bool IsWritable(PropertyInfo property)
+        {
+            return property.CanWrite && !property.GetIndexParameters().Any();
+        }
+
+        private static bool IsOfType(PropertyInfo property, Type type)
+        {
+            return property.PropertyType == type || IsSubclassOf(type, property.PropertyType) || property.PropertyType.IsAssignableFrom(type);
         }
 
         private static bool IsSubclassOf(Type type, Type otherType)
