@@ -1,6 +1,6 @@
 # Dapper.Mapper
 
-[![apache](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dotarj/PartialResponse.Core/master/LICENSE)
+[![apache](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dotarj/Dapper.Mapper/master/LICENSE)
 [![nuget](https://img.shields.io/nuget/dt/Dapper.Mapper.svg)](https://www.nuget.org/packages/Dapper.Mapper)
 [![appveyor](https://ci.appveyor.com/api/projects/status/ahlgwh6u9euvuh45?svg=true)](https://ci.appveyor.com/project/dotarj/dapper-mapper)
 [![sonarqube](https://sonarcloud.io/api/badges/gate?key=Dapper.Mapper)](https://sonarcloud.io/dashboard?id=Dapper.Mapper)
