@@ -1,19 +1,36 @@
 ﻿// Copyright (c) Arjen Post. See LICENSE in the project root for license information.
 
+using System;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace Dapper.Mapper.Tests
 {
     public class MappingCacheTests
     {
+        private interface IInterfaceSecond
+        {
+        }
+
         [Fact]
-        public void MappingCache2()
+        public void ShouldThrowIfNoWritablePropertyFound()
         {
             // Arrange
-            var first = new First();
-            var second = new Second();
+            var first = Expression.Parameter(typeof(NoWritableFirst), "first");
+            var second = Expression.Parameter(typeof(NoWritableSecond), "second");
 
-            var map = MappingCache<First, Second>.Map;
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => MappingCache.GetSetExpression(second, first));
+        }
+
+        [Fact]
+        public void ShouldSetPropertiesWithCorrectBaseType()
+        {
+            // Arrange
+            var first = new BaseTypeFirst();
+            var second = new BaseTypeSecond();
+
+            var map = MappingCache<BaseTypeFirst, BaseTypeSecond>.Map;
 
             // Act
             var result = map(first, second);
@@ -23,275 +40,122 @@ namespace Dapper.Mapper.Tests
         }
 
         [Fact]
-        public void MappingCache2_2()
+        public void ShouldSetPropertiesWithCorrectInterface()
         {
             // Arrange
-            var first = new First();
-            Second second = null;
+            var first = new InterfaceFirst();
+            var second = new InterfaceSecond();
 
-            var map = MappingCache<First, Second>.Map;
+            var map = MappingCache<InterfaceFirst, InterfaceSecond>.Map;
 
             // Act
             var result = map(first, second);
 
             // Assert
-            Assert.Null(result.Second);
+            Assert.Equal(result.Second, second);
         }
 
         [Fact]
-        public void MappingCache3()
+        public void ShouldNotSetNonWritableProperties()
         {
             // Arrange
-            var first = new First();
-            var second = new Second();
-            var third = new Third();
+            var first = new NonWriteableFirst();
+            var second = new NonWriteableSecond();
+            var third = new NonWriteableThird();
 
-            var map = MappingCache<First, Second, Third>.Map;
-
-            // Act
-            var result = map(first, second, third);
-
-            // Assert
-            Assert.Equal(result.Second.Third, third);
-        }
-
-        [Fact]
-        public void MappingCache3_2()
-        {
-            // Arrange
-            var first = new First();
-            Second second = null;
-            var third = new Third();
-
-            var map = MappingCache<First, Second, Third>.Map;
+            var map = MappingCache<NonWriteableFirst, NonWriteableThird, NonWriteableSecond>.Map;
 
             // Act
-            var result = map(first, second, third);
+            var result = map(first, third, second);
 
             // Assert
             Assert.Null(result.Second);
         }
 
         [Fact]
-        public void MappingCache4()
+        public void ShouldNotSetIndexerProperties()
         {
             // Arrange
-            var first = new First();
-            var second = new Second();
-            var third = new Third();
-            var fourth = new Fourth();
+            var first = new IndexerFirst();
+            var third = new IndexerThird();
+            var second = new IndexerSecond();
 
-            var map = MappingCache<First, Second, Third, Fourth>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth);
-
-            // Assert
-            Assert.Equal(result.Second.Third.Fourth, fourth);
-        }
-
-        [Fact]
-        public void MappingCache4_2()
-        {
-            // Arrange
-            var first = new First();
-            Second second = null;
-            var third = new Third();
-            var fourth = new Fourth();
-
-            var map = MappingCache<First, Second, Third, Fourth>.Map;
+            var map = MappingCache<IndexerFirst, IndexerThird, IndexerSecond>.Map;
 
             // Act
-            var result = map(first, second, third, fourth);
+            var result = map(first, third, second);
 
             // Assert
-            Assert.Null(result.Second);
+            Assert.Null(result[0]);
         }
 
-        [Fact]
-        public void MappingCache5()
+        private class BaseTypeFirst
         {
-            // Arrange
-            var first = new First();
-            var second = new Second();
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth);
-
-            // Assert
-            Assert.Equal(result.Second.Third.Fourth.Fifth, fifth);
+            public BaseTypeSecondBase Second { get; set; }
         }
 
-        [Fact]
-        public void MappingCache5_2()
-        {
-            // Arrange
-            var first = new First();
-            Second second = null;
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth);
-
-            // Assert
-            Assert.Null(result.Second);
-        }
-
-        [Fact]
-        public void MappingCache6()
-        {
-            // Arrange
-            var first = new First();
-            var second = new Second();
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-            var sixth = new Sixth();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth, sixth);
-
-            // Assert
-            Assert.Equal(result.Second.Third.Fourth.Fifth.Sixth, sixth);
-        }
-
-        [Fact]
-        public void MappingCache6_2()
-        {
-            // Arrange
-            var first = new First();
-            Second second = null;
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-            var sixth = new Sixth();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth, sixth);
-
-            // Assert
-            Assert.Null(result.Second);
-        }
-
-        [Fact]
-        public void MappingCache7()
-        {
-            // Arrange
-            var first = new First();
-            var second = new Second();
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-            var sixth = new Sixth();
-            var seventh = new Seventh();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth, Seventh>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth, sixth, seventh);
-
-            // Assert
-            Assert.Equal(result.Second.Third.Fourth.Fifth.Sixth.Seventh, seventh);
-        }
-
-        [Fact]
-        public void MappingCache7_2()
-        {
-            // Arrange
-            var first = new First();
-            Second second = null;
-            var third = new Third();
-            var fourth = new Fourth();
-            var fifth = new Fifth();
-            var sixth = new Sixth();
-            var seventh = new Seventh();
-
-            var map = MappingCache<First, Second, Third, Fourth, Fifth, Sixth, Seventh>.Map;
-
-            // Act
-            var result = map(first, second, third, fourth, fifth, sixth, seventh);
-
-            // Assert
-            Assert.Null(result.Second);
-        }
-
-        [Fact]
-        public void MappingCache8()
-        {
-            // Arrange
-            var withInterface = new Eighth();
-            var test = new Test();
-
-            var map = MappingCache<Eighth, Test>.Map;
-
-            // Act
-            var result = map(withInterface, test);
-
-            // Assert
-            Assert.NotNull(result.Test);
-        }
-
-        private class First
-        {
-            public Second Second { get; set; }
-        }
-
-        private class Second
-        {
-            public ThirdBase Third { get; set; }
-        }
-
-        private class ThirdBase
-        {
-            public Fourth Fourth { get; set; }
-        }
-
-        private class Third : ThirdBase
+        private class BaseTypeSecondBase
         {
         }
 
-        private class Fourth
-        {
-            public Fifth Fifth { get; set; }
-        }
-
-        private class Fifth
-        {
-            public Sixth Sixth { get; set; }
-        }
-
-        private class Sixth
-        {
-            public Seventh Seventh { get; set; }
-        }
-
-        private class Seventh
+        private class BaseTypeSecond : BaseTypeSecondBase
         {
         }
 
-        private class Eighth
+        private class InterfaceFirst
         {
-            public Test.ITest Test { get; set; }
+            public IInterfaceSecond Second { get; set; }
         }
 
-        private class Test : Test.ITest
+        private class InterfaceSecond : IInterfaceSecond
         {
-            public interface ITest
+        }
+
+        private class NonWriteableFirst
+        {
+            public NonWriteableSecond Second { get; }
+
+            public NonWriteableThird Third { get; set; }
+        }
+
+        private class NonWriteableSecond
+        {
+        }
+
+        private class NonWriteableThird
+        {
+            public NonWriteableSecond Second { get; set; }
+        }
+
+        private class IndexerFirst
+        {
+            private IndexerSecond indexerSecond;
+
+            public IndexerThird IndexerThird { get; set; }
+
+            public IndexerSecond this[int index]
             {
+                get { return this.indexerSecond; }
+                set { this.indexerSecond = value; }
             }
+        }
+
+        private class IndexerSecond
+        {
+        }
+
+        private class IndexerThird
+        {
+            public IndexerSecond IndexerSecond { get; set; }
+        }
+
+        private class NoWritableFirst
+        {
+            public NoWritableSecond Second { get; }
+        }
+
+        private class NoWritableSecond
+        {
         }
     }
 }
