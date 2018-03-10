@@ -69,7 +69,7 @@ namespace Dapper.Mapper.Tests
                 var commandText = "foo";
 
                 // Act
-                var result = this.connection.Query<First, Second>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
+                this.connection.Query<First, Second>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -83,7 +83,7 @@ namespace Dapper.Mapper.Tests
                 var parameters = new { foo = 42 };
 
                 // Act
-                var result = this.connection.Query<First, Second>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
+                this.connection.Query<First, Second>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.parameter)
@@ -96,7 +96,7 @@ namespace Dapper.Mapper.Tests
             public void ShouldPassTransaction()
             {
                 // Act
-                var result = this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
+                this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -130,7 +130,7 @@ namespace Dapper.Mapper.Tests
                 var commandTimeout = 42;
 
                 // Act
-                var result = this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: commandTimeout, commandType: CommandType.Text);
+                this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: commandTimeout, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -144,7 +144,7 @@ namespace Dapper.Mapper.Tests
                 var commandType = CommandType.TableDirect;
 
                 // Act
-                var result = this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: commandType);
+                this.connection.Query<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId", commandTimeout: null, commandType: commandType);
 
                 // Assert
                 Mock.Get(this.command)
