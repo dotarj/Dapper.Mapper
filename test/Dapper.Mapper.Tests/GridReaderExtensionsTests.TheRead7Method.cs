@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Dapper.Mapper.Tests
 {
-    public partial class GridReaderExtensionsTests : BaseTests
+    public abstract partial class GridReaderExtensionsTests : BaseTests
     {
         public class TheRead7Method : GridReaderExtensionsTests
         {

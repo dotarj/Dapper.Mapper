@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Dapper.Mapper.Tests
 {
-    public partial class SqlMapperTests
+    public abstract partial class SqlMapperTests
     {
         public class TheQuery2Method : SqlMapperTests
         {

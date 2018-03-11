@@ -10,7 +10,7 @@ namespace Dapper.Mapper.Tests
     {
         private int rowIndex;
 
-        public BaseTests(string[] columnNames)
+        protected BaseTests(string[] columnNames)
         {
             this.ColumnNames = columnNames;
 

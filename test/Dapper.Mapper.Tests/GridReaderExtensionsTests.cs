@@ -2,9 +2,9 @@
 
 namespace Dapper.Mapper.Tests
 {
-    public partial class GridReaderExtensionsTests
+    public abstract partial class GridReaderExtensionsTests
     {
-        public GridReaderExtensionsTests(string[] columnNames)
+        protected GridReaderExtensionsTests(string[] columnNames)
             : base(columnNames)
         {
         }

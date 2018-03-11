@@ -6,9 +6,9 @@ using Moq;
 
 namespace Dapper.Mapper.Tests
 {
-    public partial class SqlMapperTests : BaseTests
+    public abstract partial class SqlMapperTests : BaseTests
     {
-        public SqlMapperTests(string[] columnNames)
+        protected SqlMapperTests(string[] columnNames)
             : base(columnNames)
         {
         }
