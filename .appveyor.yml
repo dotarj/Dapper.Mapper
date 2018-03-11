@@ -74,10 +74,10 @@ before_build:
 - ps: |
       Execute-Action "beginning code analysis" {
           if ($env:APPVEYOR_PULL_REQUEST_NUMBER) {
-              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs,**/*Tests.*.cs /d:sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER /d:sonar.github.repository=$env:APPVEYOR_REPO_NAME /d:sonar.github.oauth=$env:SONARQUBE_GITHUB_TOKEN
+              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs,**/*Tests.*.cs,**/*Mock.cs /d:sonar.github.pullRequest=$env:APPVEYOR_PULL_REQUEST_NUMBER /d:sonar.github.repository=$env:APPVEYOR_REPO_NAME /d:sonar.github.oauth=$env:SONARQUBE_GITHUB_TOKEN
           }
           else {
-              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs,**/*Tests.*.cs
+              MSBuild.SonarQube.Runner.exe begin /o:$env:SONARQUBE_ORGANIZATION /k:$env:APPVEYOR_PROJECT_NAME /v:$env:APPVEYOR_BUILD_VERSION /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=$env:SONARQUBE_TOKEN /d:sonar.cs.opencover.reportsPaths=coverage.xml /d:sonar.coverage.exclusions=**/*Tests.cs,**/*Tests.*.cs,**/*Mock.cs
           }
       }
 
