@@ -76,7 +76,7 @@ namespace Dapper.Mapper.Tests
                 var map = MappingCache<First, Second, Third, Fourth>.Map;
 
                 // Act
-                var result = map(first, second, third, fourth);
+                map(first, second, third, fourth);
 
                 // Assert
                 Assert.Null(second.Third);

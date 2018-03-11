@@ -80,7 +80,7 @@ namespace Dapper.Mapper.Tests
                 var map = MappingCache<First, Second, Third, Fourth, Fifth>.Map;
 
                 // Act
-                var result = map(first, second, third, fourth, fifth);
+                map(first, second, third, fourth, fifth);
 
                 // Assert
                 Assert.Null(second.Third);
@@ -99,7 +99,7 @@ namespace Dapper.Mapper.Tests
                 var map = MappingCache<First, Second, Third, Fourth, Fifth>.Map;
 
                 // Act
-                var result = map(first, second, third, fourth, fifth);
+                map(first, second, third, fourth, fifth);
 
                 // Assert
                 Assert.Null(third.Fourth);
