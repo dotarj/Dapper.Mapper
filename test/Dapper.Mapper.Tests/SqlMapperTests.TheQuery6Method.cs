@@ -24,10 +24,10 @@ namespace Dapper.Mapper.Tests
                 var commandText = "foo";
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: commandText, param: null, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandText = commandText);
             }
 
@@ -38,12 +38,12 @@ namespace Dapper.Mapper.Tests
                 var parameters = new { foo = 42 };
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: "@foo", param: parameters, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.parameter)
+                Mock.Get(this.Parameter)
                     .VerifySet(parameter => parameter.ParameterName = "foo");
-                Mock.Get(this.parameter)
+                Mock.Get(this.Parameter)
                     .VerifySet(parameter => parameter.Value = 42);
             }
 
@@ -51,18 +51,18 @@ namespace Dapper.Mapper.Tests
             public void ShouldPassTransaction()
             {
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
-                    .VerifySet(command => command.Transaction = this.transaction);
+                Mock.Get(this.Command)
+                    .VerifySet(command => command.Transaction = this.Transaction);
             }
 
             [Fact]
             public void ShouldPassBuffered()
             {
                 // Act
-                var result = this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: false, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                var result = this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: false, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Assert.IsNotType<List<First>>(result);
@@ -72,7 +72,7 @@ namespace Dapper.Mapper.Tests
             public void ShouldPassSplitOn()
             {
                 // Act
-                var result = this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                var result = this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Assert.Equal(1, result.First().Second.SecondId);
@@ -85,10 +85,10 @@ namespace Dapper.Mapper.Tests
                 var commandTimeout = 42;
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: commandTimeout, commandType: CommandType.Text);
+                this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: commandTimeout, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandTimeout = commandTimeout);
             }
 
@@ -99,10 +99,10 @@ namespace Dapper.Mapper.Tests
                 var commandType = CommandType.TableDirect;
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: commandType);
+                this.Connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: commandType);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandType = commandType);
             }
         }

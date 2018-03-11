@@ -25,10 +25,10 @@ namespace Dapper.Mapper.Tests
                 var commandText = "foo";
 
                 // Act
-                await this.connection.QueryAsync<First, Second>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
+                await this.Connection.QueryAsync<First, Second>(sql: commandText, param: null, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandText = commandText);
             }
 
@@ -39,12 +39,12 @@ namespace Dapper.Mapper.Tests
                 var parameters = new { foo = 42 };
 
                 // Act
-                await this.connection.QueryAsync<First, Second>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
+                await this.Connection.QueryAsync<First, Second>(sql: "@foo", param: parameters, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.parameter)
+                Mock.Get(this.Parameter)
                     .VerifySet(parameter => parameter.ParameterName = "foo");
-                Mock.Get(this.parameter)
+                Mock.Get(this.Parameter)
                     .VerifySet(parameter => parameter.Value = 42);
             }
 
@@ -52,18 +52,18 @@ namespace Dapper.Mapper.Tests
             public async Task ShouldPassTransaction()
             {
                 // Act
-                await this.connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
+                await this.Connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
-                    .VerifySet(command => command.Transaction = this.transaction);
+                Mock.Get(this.Command)
+                    .VerifySet(command => command.Transaction = this.Transaction);
             }
 
             [Fact]
             public async Task ShouldPassBuffered()
             {
                 // Act
-                var result = await this.connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: false, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
+                var result = await this.Connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: false, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Assert.IsNotType<List<First>>(result);
@@ -73,7 +73,7 @@ namespace Dapper.Mapper.Tests
             public async Task ShouldPassSplitOn()
             {
                 // Act
-                var result = await this.connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
+                var result = await this.Connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Assert.Equal(1, result.First().Second.SecondId);
@@ -86,10 +86,10 @@ namespace Dapper.Mapper.Tests
                 var commandTimeout = 42;
 
                 // Act
-                await this.connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: commandTimeout, commandType: CommandType.Text);
+                await this.Connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: commandTimeout, commandType: CommandType.Text);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandTimeout = commandTimeout);
             }
 
@@ -100,10 +100,10 @@ namespace Dapper.Mapper.Tests
                 var commandType = CommandType.TableDirect;
 
                 // Act
-                await this.connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: commandType);
+                await this.Connection.QueryAsync<First, Second>(sql: string.Empty, param: null, transaction: this.Transaction, buffered: true, splitOn: string.Join(",", this.ColumnNames), commandTimeout: null, commandType: commandType);
 
                 // Assert
-                Mock.Get(this.command)
+                Mock.Get(this.Command)
                     .VerifySet(command => command.CommandType = commandType);
             }
         }

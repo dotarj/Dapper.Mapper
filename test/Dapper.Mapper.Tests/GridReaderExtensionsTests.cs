@@ -1,14 +1,10 @@
 ﻿// Copyright (c) Arjen Post. See LICENSE in the project root for license information.
 
-using System.Data;
-using System.Data.Common;
-using Moq;
-
 namespace Dapper.Mapper.Tests
 {
-    public partial class SqlMapperTests : BaseTests
+    public partial class GridReaderExtensionsTests
     {
-        public SqlMapperTests(string[] columnNames)
+        public GridReaderExtensionsTests(string[] columnNames)
             : base(columnNames)
         {
         }
