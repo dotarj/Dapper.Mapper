@@ -105,18 +105,6 @@ namespace Dapper.Mapper.Tests
                 Mock.Get(this.command)
                     .VerifySet(command => command.CommandType = commandType);
             }
-
-            public class First
-            {
-                public int FirstId { get; set; }
-
-                public Second Second { get; set; }
-            }
-
-            public class Second
-            {
-                public int SecondId { get; set; }
-            }
         }
     }
 }

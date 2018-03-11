@@ -1,14 +1,8 @@
 ﻿// Copyright (c) Arjen Post. See LICENSE in the project root for license information.
 
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Dapper.Mapper;
 using Moq;
-using Xunit;
 
 namespace Dapper.Mapper.Tests
 {
@@ -81,6 +75,53 @@ namespace Dapper.Mapper.Tests
             Mock.Get(this.reader)
                 .SetupGet(reader => reader[It.IsAny<int>()])
                 .Returns(1);
+        }
+
+        public class First
+        {
+            public int FirstId { get; set; }
+
+            public Second Second { get; set; }
+        }
+
+        public class Second
+        {
+            public int SecondId { get; set; }
+
+            public Third Third { get; set; }
+        }
+
+        public class Third
+        {
+            public int ThirdId { get; set; }
+
+            public Fourth Fourth { get; set; }
+        }
+
+        public class Fourth
+        {
+            public int FourthId { get; set; }
+
+            public Fifth Fifth { get; set; }
+        }
+
+        public class Fifth
+        {
+            public int FifthId { get; set; }
+
+            public Sixth Sixth { get; set; }
+        }
+
+        public class Sixth
+        {
+            public int SixthId { get; set; }
+
+            public Seventh Seventh { get; set; }
+        }
+
+        public class Seventh
+        {
+            public int SeventhId { get; set; }
         }
     }
 }
