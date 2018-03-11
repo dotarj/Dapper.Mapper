@@ -12,54 +12,9 @@ namespace Dapper.Mapper.Tests
     {
         public class TheQuery5Method : SqlMapperTests
         {
-            private readonly IDbConnection connection = Mock.Of<IDbConnection>();
-            private readonly IDataParameterCollection parameters = Mock.Of<IDataParameterCollection>();
-            private readonly IDbDataParameter parameter = Mock.Of<IDbDataParameter>();
-            private readonly IDbCommand command = Mock.Of<IDbCommand>();
-            private readonly IDataReader reader = Mock.Of<IDataReader>();
-            private readonly IDbTransaction transaction = Mock.Of<IDbTransaction>();
-
-            private readonly string[] columnNames = new[] { "FirstId", "SecondId", "ThirdId", "FourthId", "FifthId" };
-
-            private int rowIndex;
-
             public TheQuery5Method()
+                : base(columnNames: new[] { "FirstId", "SecondId", "ThirdId", "FourthId", "FifthId" })
             {
-                Mock.Get(this.connection)
-                    .Setup(connection => connection.CreateCommand())
-                    .Returns(this.command);
-
-                Mock.Get(this.command)
-                    .Setup(command => command.ExecuteReader(It.IsAny<CommandBehavior>()))
-                    .Returns(this.reader);
-
-                Mock.Get(this.command)
-                    .Setup(command => command.CreateParameter())
-                    .Returns(this.parameter);
-
-                Mock.Get(this.command)
-                    .SetupGet(command => command.Parameters)
-                    .Returns(this.parameters);
-
-                Mock.Get(this.reader)
-                    .SetupGet(reader => reader.FieldCount)
-                    .Returns(this.columnNames.Length);
-
-                Mock.Get(this.reader)
-                    .Setup(reader => reader.GetName(It.IsAny<int>()))
-                    .Returns<int>(i => this.columnNames[i]);
-
-                Mock.Get(this.reader)
-                    .Setup(reader => reader.GetFieldType(It.IsAny<int>()))
-                    .Returns(typeof(int));
-
-                Mock.Get(this.reader)
-                    .Setup(reader => reader.Read())
-                    .Returns(() => (this.rowIndex++ < 1));
-
-                Mock.Get(this.reader)
-                    .SetupGet(reader => reader[It.IsAny<int>()])
-                    .Returns(1);
             }
 
             [Fact]

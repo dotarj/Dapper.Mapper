@@ -2,7 +2,11 @@
 
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Dapper.Mapper;
 using Moq;
 using Xunit;
 
@@ -10,21 +14,21 @@ namespace Dapper.Mapper.Tests
 {
     public partial class SqlMapperTests
     {
-        public class TheQuery6Method : SqlMapperTests
+        public class TheQueryAsync5Method : SqlMapperTests
         {
-            public TheQuery6Method()
-                : base(columnNames: new[] { "FirstId", "SecondId", "ThirdId", "FourthId", "FifthId", "SixthId" })
+            public TheQueryAsync5Method()
+                : base(columnNames: new[] { "FirstId", "SecondId", "ThirdId", "FourthId", "FifthId" })
             {
             }
 
             [Fact]
-            public void ShouldPassCommandText()
+            public async Task ShouldPassCommandText()
             {
                 // Arrange
                 var commandText = "foo";
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: commandText, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -32,13 +36,13 @@ namespace Dapper.Mapper.Tests
             }
 
             [Fact]
-            public void ShouldPassParameters()
+            public async Task ShouldPassParameters()
             {
                 // Arrange
                 var parameters = new { foo = 42 };
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: "@foo", param: parameters, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.parameter)
@@ -48,10 +52,10 @@ namespace Dapper.Mapper.Tests
             }
 
             [Fact]
-            public void ShouldPassTransaction()
+            public async Task ShouldPassTransaction()
             {
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -59,33 +63,33 @@ namespace Dapper.Mapper.Tests
             }
 
             [Fact]
-            public void ShouldPassBuffered()
+            public async Task ShouldPassBuffered()
             {
                 // Act
-                var result = this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: false, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                var result = await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: false, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
                 Assert.IsNotType<List<First>>(result);
             }
 
             [Fact]
-            public void ShouldPassSplitOn()
+            public async Task ShouldPassSplitOn()
             {
                 // Act
-                var result = this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: CommandType.Text);
+                var result = await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: CommandType.Text);
 
                 // Assert
-                Assert.Equal(1, result.First().Second.SecondId);
+                Assert.Equal(1, result.First().Second.Third.Fourth.Fifth.FifthId);
             }
 
             [Fact]
-            public void ShouldPassCommandTimeout()
+            public async Task ShouldPassCommandTimeout()
             {
                 // Arrange
                 var commandTimeout = 42;
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: commandTimeout, commandType: CommandType.Text);
+                await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: commandTimeout, commandType: CommandType.Text);
 
                 // Assert
                 Mock.Get(this.command)
@@ -93,13 +97,13 @@ namespace Dapper.Mapper.Tests
             }
 
             [Fact]
-            public void ShouldPassCommandType()
+            public async Task ShouldPassCommandType()
             {
                 // Arrange
                 var commandType = CommandType.TableDirect;
 
                 // Act
-                this.connection.Query<First, Second, Third, Fourth, Fifth, Sixth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: "SecondId,ThirdId,FourthId,FifthId,SixthId", commandTimeout: null, commandType: commandType);
+                await this.connection.QueryAsync<First, Second, Third, Fourth, Fifth>(sql: string.Empty, param: null, transaction: this.transaction, buffered: true, splitOn: string.Join(",", this.columnNames), commandTimeout: null, commandType: commandType);
 
                 // Assert
                 Mock.Get(this.command)
@@ -122,7 +126,7 @@ namespace Dapper.Mapper.Tests
 
             public class Third
             {
-                public int ThridId { get; set; }
+                public int ThirdId { get; set; }
 
                 public Fourth Fourth { get; set; }
             }
@@ -137,13 +141,6 @@ namespace Dapper.Mapper.Tests
             public class Fifth
             {
                 public int FifthId { get; set; }
-
-                public Sixth Sixth { get; set; }
-            }
-
-            public class Sixth
-            {
-                public int SixthId { get; set; }
             }
         }
     }
